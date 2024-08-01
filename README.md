@@ -1,6 +1,3 @@
-# helloworld
-This is for practice
-
 #include <stdio.h>
 
 int main() {
