@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+#define MAX_PARAGRAPH_LENGTH 1000
+#define MAX_WORD_LENGTH 100
+#define MAX_WORDS 1000
+
+typedef struct {
+    char word[MAX_WORD_LENGTH];
+    int count;
+} WordCount;
+
+int findWordIndex(WordCount wordCounts[], int numWords, const char *word) {
+    for (int i = 0; i < numWords; i++) {
+        if (strcmp(wordCounts[i].word, word) == 0) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+void toLowerCase(char *str) {
+    while (*str) {
+        *str = tolower(*str);
+        str++;
+    }
+}
+
+int main() {
+    char paragraph[MAX_PARAGRAPH_LENGTH];
+    WordCount wordCounts[MAX_WORDS];
+    int numWords = 0;
+
+    // Input the paragraph
+    printf("Enter a paragraph (max %d characters):\n", MAX_PARAGRAPH_LENGTH - 1);
+    fgets(paragraph, sizeof(paragraph), stdin);
+
+    // Remove newline character if present
+    size_t len = strlen(paragraph);
+    if (len > 0 && paragraph[len - 1] == '\n') {
+        paragraph[len - 1] = '\0';
+    }
+
+    // Tokenize the paragraph and count word frequencies
+    char *token = strtok(paragraph, " \t\n");
+    while (token != NULL) {
+        char word[MAX_WORD_LENGTH];
+        strncpy(word, token, sizeof(word));
+        word[sizeof(word) - 1] = '\0';
+        toLowerCase(word);
+
+        int index = findWordIndex(wordCounts, numWords, word);
+        if (index == -1) {
+            // New word
+            strncpy(wordCounts[nu
